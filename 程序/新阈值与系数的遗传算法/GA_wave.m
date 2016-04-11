@@ -46,7 +46,7 @@ real_yuzhi = wave_encode(c_max_min,every_thr_len,pop);%·µ»Ø¸÷¸öÈ¾É«ÌåÊµ¼Ê¶ÔÓ¦ãÐÖ
 for i=1:popsize
     thr1=real_yuzhi(i,:);%ÄÃ³öÃ¿Ò»×éÊµ¼ÊãÐÖµ
     %ÄÃÊµ¼ÊãÐÖµÖÐµÄÃ¿Ò»×éÊµ¼ÊµÄãÐÖµÈí´¦Àí¸ßÆµ²¿·ÖµÄÏµÊý
-    [new_C]=hard_func2(C,pos_L1,pos_L2,thr1);
+    [new_C]=new_func_3(C,pos_L1,pos_L2,thr1);
 %     length_new_C=size(new_C)
     %ÖØ¹¹ÐÅºÅ
     new_x = waverec(new_C,L,db);

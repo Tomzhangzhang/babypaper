@@ -5,7 +5,7 @@ function [c] = wave_encode( c_max_min,every_thr_len,num_seqs)
 %先将二进制字符数串按照每个阈值所占的个数分割，然后转化为十进制,
 %最终返回的就是各个染色体对应的实际阈值
 
-len = length(every_thr_len);%这一条染色体要分成几部分,即有几个阈值,也就是几层分解
+len = length(every_thr_len);%这一条染色体要分成几部分,即有几个阈值,也就是几层分解,还要加上一个系数
 [m,~] = size(num_seqs);%这是染色体的个数和编码的总个数
 pos_2 = cumsum(every_thr_len);%累加求第二位置
 pos_1 = [1,pos_2(1:len-1)+1];%求第一位置
