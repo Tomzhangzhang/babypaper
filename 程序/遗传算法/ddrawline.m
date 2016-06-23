@@ -1,12 +1,12 @@
-load('hello6_0324_snr25.mat');
+load('hello6_0412_snr15.mat');
 x=x;
-load('s_hello6_0324_snr25.mat');
+load('s_hello6_0412_snr15.mat');
 s=s;
-load('hello6_denoise_soft_0324_snr25_test6.mat');
+load('hello6_denoise_soft_0324_snr25_test2.mat');
 soft=new_sig;
-load('hello6_denoise_hard_0324_snr25_test6.mat');
+load('hello6_denoise_hard_0324_snr25_test5.mat');
 hard=new_sig;
-load('hello6_denoise_new_0324_snr25_test6.mat');
+load('hello6_new_0412_snr15_test3.mat');
 new=new_sig;
 figure(1);
 subplot(3,2,1);

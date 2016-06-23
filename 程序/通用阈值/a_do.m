@@ -1,13 +1,14 @@
 close all;
 clear;
 clc;
-[x,FS,NBITS]=wavread('hello_6.wav');%读取波形文件获得数据
- x=x(:,1)+x(:,2);
-s=awgn(x,25);%添加50db的高斯白噪声
-% load('hello6_add_0324_15.mat');
-% x=x;
-% load('s_hello_add_15_0324_15.mat');
-% s=s;
+% [x,FS,NBITS]=wavread('hello_6.wav');%读取波形文件获得数据
+%  x=x(:,1)+x(:,2);
+% s=awgn(x,25);%添加50db的高斯白噪声
+load('hello6_0412_snr15.mat');
+x=x;
+s=awgn(x,15);%添加50db的高斯白噪声
+%  load('s_hello6_0412_snr15.mat');
+%  s=s;
 % load noisbloc;
 % s=noisbloc;
 % [x]=wnoise(1,10);

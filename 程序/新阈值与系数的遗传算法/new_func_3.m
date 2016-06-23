@@ -9,7 +9,7 @@ level_num = length(thr1)-1;%找出共分解了几层
 alfa_xishu = thr1(end);
 for i= 1:level_num
     %new_C(pos_L1(end-i+1):pos_L2(end-i+1))=(sign(C(pos_L1(end-i+1):pos_L2(end-i+1))).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))-(thr1(i)/2)).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))>=thr1(i)))+((C(pos_L1(end-i+1):pos_L2(end-i+1)).^3)./(2*(thr1(i).^2)).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))<thr1(i)));
-    new_C(pos_L1(end-i+1):pos_L2(end-i+1))=(sign(C(pos_L1(end-i+1):pos_L2(end-i+1))).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))-(thr1(i)*alfa_xishu)).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))>=thr1(i)))+((C(pos_L1(end-i+1):pos_L2(end-i+1)).^3)./(2*(thr1(i).^2)).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))<thr1(i)));
+    new_C(pos_L1(end-i+1):pos_L2(end-i+1))=(sign(C(pos_L1(end-i+1):pos_L2(end-i+1))).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))-(thr1(i)*alfa_xishu)).*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))>=thr1(i)))+((C(pos_L1(end-i+1):pos_L2(end-i+1)).^3)./(thr1(i).^3)).*alfa_xishu.*(abs(C(pos_L1(end-i+1):pos_L2(end-i+1)))<thr1(i));
 end
 end
 

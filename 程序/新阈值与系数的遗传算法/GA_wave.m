@@ -1,4 +1,4 @@
-function [best_thr,best_fit,new_sig]=GA_wave(x_original,xi,level_num,db,maxgen,popsize,pcross,pmutation)
+function [best_thr,best_fit,new_sig]=GA_wave(s,xi,level_num,db,maxgen,popsize,pcross,pmutation)
 %-------------------------------------------------------------------------
 %   使用遗传算法求解最佳阈值
 %-------------------------------------------------------------------------
@@ -30,12 +30,13 @@ for i = 1:level_num%取出每层的高频部分的绝对值最大值和最小值
     c_max_min(i,1) = max(abs(C(pos_L1(end-i+1):pos_L2(end-i+1))));
     c_max_min(i,2) = min(abs(C(pos_L1(end-i+1):pos_L2(end-i+1))));
 end
-c_max_min=[c_max_min;1,0];%这里要加上1，0是指系数的最大值与最小值
+c_max_min=[c_max_min;1,0.001];%这里要加上1，0是指系数的最大值与最小值
 
 every_thr_len = wave_decode(c_max_min);%求出每层阈值，与系数的编码的个数
 n = sum(every_thr_len);%每条染色体的总长度
 
-fitfun=@(x)1/(sqrt((1/N)*(sum((x_original-x).^2)))); %适应度函数 即：MSE的倒数
+ fitfun=@(x)1/((sum(s-x)/N).^2);%噪声的平均值趋于0
+% fitfun=@(x)1/(sqrt((1/N)*(sum((x_original-x).^2)))); %适应度函数 即：MSE的倒数
 %  fitfun=@(x)10*log((sum((x).^2))/(sum((xi-x).^2)))     ; %适应度函数 即：MSE的倒数
 % 初始化种群
 pop=round(rand(popsize,n));

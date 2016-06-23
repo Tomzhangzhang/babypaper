@@ -1,4 +1,4 @@
-function [best_thr,best_fit,new_sig]=GA_wave(x_original,xi,level_num,db,maxgen,popsize,pcross,pmutation)
+function [best_thr,best_fit,new_sig]=GA_wave(s,xi,level_num,db,maxgen,popsize,pcross,pmutation)
 %-------------------------------------------------------------------------
 %   使用遗传算法求解最佳阈值
 %-------------------------------------------------------------------------
@@ -11,6 +11,7 @@ function [best_thr,best_fit,new_sig]=GA_wave(x_original,xi,level_num,db,maxgen,p
 %先对信号进行分解
 N = length(xi);%采样点的个数
 [C,L] = wavedec(xi,level_num,db);
+length_c = length(C)
 %由L得到各层系数在C中的起始坐标和终止坐标
 [lx,ly] = size(L);
 if(lx>ly)
@@ -34,18 +35,19 @@ end
 every_thr_len = wave_decode(c_max_min);%求出每层阈值编码的个数
 n = sum(every_thr_len);%每条染色体的总长度
 
-  fitfun=@(x)1/(sqrt((1/N)*(sum((x_original-x).^2)))); %适应度函数 即：MSE的倒数
+%  fitfun=@(x)1/((sum(s-x)/N).^2);%噪声的平均值趋于0
+   fitfun=@(x)1/(sqrt((1/N)*(sum(sum((s-xi).^2))))); %适应度函数 即：MSE的倒数
 %  fitfun=@(x)10*log((sum((x).^2))/(sum((xi-x).^2)))     ; %适应度函数 即：MSE的倒数
 % 初始化种群
 pop=round(rand(popsize,n));
 popfit=zeros(popsize,1);
 
 xx = zeros(popsize,N);%
-real_yuzhi = wave_encode(c_max_min,every_thr_len,pop);%返回各个染色体实际对应阈值
+real_yuzhi = wave_encode(c_max_min,every_thr_len,pop)%返回各个染色体实际对应阈值
 for i=1:popsize
     thr1=real_yuzhi(i,:);%拿出每一组实际阈值
     %拿实际阈值中的每一组实际的阈值软处理高频部分的系数
-    [new_C]=hard_func2(C,pos_L1,pos_L2,thr1);
+    [new_C]=new_func_2(C,pos_L1,pos_L2,thr1);
 %     length_new_C=size(new_C)
     %重构信号
     new_x = waverec(new_C,L,db);
@@ -68,11 +70,11 @@ for i=1:maxgen
     pop=Cross(pop,pcross);%交叉
     pop=Mutation(pop,pmutation);%变异
     %重新计算适应度，更新最大适应度和最好染色体
-    real_yuzhi = wave_encode(c_max_min,every_thr_len,pop);%返回各个染色体实际对应阈值
+    real_yuzhi = wave_encode(c_max_min,every_thr_len,pop)%返回各个染色体实际对应阈值
     for j=1:popsize
         thr1=real_yuzhi(j,:);%拿出每一组实际阈值
         %拿实际阈值中的每一组实际的阈值软处理高频部分的系数
-        [new_C]=hard_func2(C,pos_L1,pos_L2,thr1);
+        [new_C]=new_func_2(C,pos_L1,pos_L2,thr1);
         %重构信号
         new_x = waverec(new_C,L,db);
         %将重构好的信号代入适应度函数求适应度
@@ -82,6 +84,7 @@ for i=1:maxgen
         xx(j,:) = new_x;
     end
     p=bestfit;
+    1/p
     q=max(popfit);
     if q>p
         [bestfit,index]=max(popfit);
@@ -89,7 +92,7 @@ for i=1:maxgen
     end
 end
 best_thr = wave_encode(c_max_min,every_thr_len,bestchrom);
-best_fit = 1/bestfit;
+best_fit = 1/bestfit
 % 窗口显示结果
 new_sig = xx(index,:);
 disp(['最佳染色体：',num2str(bestchrom)])
